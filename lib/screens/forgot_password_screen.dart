@@ -53,10 +53,18 @@ class _ForgotPassState extends State<ForgotPass> {
                 icon: Icon(Icons.email_outlined),
                 label: Text('Изменить пароль'),
                 onPressed:() async {
-                 await FirebaseAuth.instance.sendPasswordResetEmail(
-                      email: _emailController.text);
+                  try {
+                    await FirebaseAuth.instance.sendPasswordResetEmail(
+                        email: _emailController.text);
+                  } on FirebaseAuthException catch (e) {
+                     if (e.code == 'auth/invalid-email') {
+                       print('Неверный адрес');
+              }
+                   print(e);
+                  }
                   // FirebaseHelper.resetPassword(emailController.text.trim());
-                  // Navigator.pop(context);
+                  Navigator.pop(context);
+
                 },
 
               ),
