@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseHelper {
 
@@ -28,7 +29,8 @@ class FirebaseHelper {
 
   static Future<bool> signUp(String email, String password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // UserCredential userCredential =
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -46,6 +48,25 @@ class FirebaseHelper {
     }
     return false;
   }
+
+  static Future resetPassword() async {
+    final emailController = TextEditingController();
+    final email = emailController.text;
+    try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: email);
+        // emailController.text);
+        // 'oulitka75@gmail.com');
+
+  } on FirebaseAuthException catch (e) {
+      if (e.code == 'auth/invalid-email') {
+        print('Неверный адрес');
+      }
+      print(e);
+      print(email);
+    }
+  }
+
 
 static Future<void> logout
 

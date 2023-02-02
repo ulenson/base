@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../service/fire_base_helper.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -50,7 +50,14 @@ class LoginScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/sign_up');
             },
-            child: const Text('Firstly here? Sign up!'),
+            child: const Text('Нет аккаунта? Зарегистрируйтесь!'),
+          ),
+          TextButton(
+            onPressed: () =>
+            {
+              Navigator.pushNamed(context, '/forgot'),
+            },
+            child: const Text('Забыли пароль?'),
           ),
         ],
       ),
