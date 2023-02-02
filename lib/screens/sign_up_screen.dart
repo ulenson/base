@@ -36,9 +36,9 @@ class SignUpScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () async {
-              final email = _emailController.text;
-              final password = _passwordController.text;
-              final passwordAgain = _passwordAgainController.text;
+              final email = _emailController.text.trim();
+              final password = _passwordController.text.trim();
+              final passwordAgain = _passwordAgainController.text.trim();
               if (password == passwordAgain) {
                 final success = await FirebaseHelper.signUp(email, password);
                 if (success) {

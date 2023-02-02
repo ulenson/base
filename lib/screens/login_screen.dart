@@ -7,6 +7,8 @@ class LoginScreen extends StatelessWidget {
   final _passwordController = TextEditingController();
 
   LoginScreen({Key? key}) : super(key: key);
+ 
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,8 @@ class LoginScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () async {
-              final email = _emailController.text;
-              final password = _passwordController.text;
+              final email = _emailController.text.trim();
+              final password = _passwordController.text.trim();
               final success = await FirebaseHelper.login(email, password);
               if (success) {
                 Navigator.pushReplacementNamed(context, '/profile');

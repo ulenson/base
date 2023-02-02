@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../service/fire_base_helper.dart';
+
 class ForgotPass extends StatefulWidget {
   const ForgotPass({Key? key}) : super(key: key);
 
@@ -12,11 +13,11 @@ class ForgotPass extends StatefulWidget {
 
 class _ForgotPassState extends State<ForgotPass> {
   final formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
+  final _emailController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -37,12 +38,12 @@ class _ForgotPassState extends State<ForgotPass> {
               Text('Получить письмо для сброса пароля'),
               SizedBox(height: 20),
               TextFormField(
-                controller: emailController,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (email) =>
-                email != null && !EmailValidator.validate(email)
-                    ? 'Верный адрес электронной почты'
-                    : null,
+                controller: _emailController,
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                // validator: (email) =>
+                // email != null && !EmailValidator.validate(email)
+                //     ? 'Верный адрес электронной почты'
+                //     : null,
               ),
               SizedBox(height: 20),
               ElevatedButton.icon(
@@ -51,8 +52,10 @@ class _ForgotPassState extends State<ForgotPass> {
                 ),
                 icon: Icon(Icons.email_outlined),
                 label: Text('Изменить пароль'),
-                onPressed:() {
-                  FirebaseHelper.resetPassword();
+                onPressed:() async {
+                 await FirebaseAuth.instance.sendPasswordResetEmail(
+                      email: _emailController.text);
+                  // FirebaseHelper.resetPassword(emailController.text.trim());
                   // Navigator.pop(context);
                 },
 

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:base/screens/forgot_password_screen.dart';
 class FirebaseHelper {
 
   static Future<bool> login(String email, String password) async {
@@ -49,9 +49,9 @@ class FirebaseHelper {
     return false;
   }
 
-  static Future resetPassword() async {
+  static Future resetPassword(String email) async {
     final emailController = TextEditingController();
-    final email = emailController.text;
+    final email = emailController.text.trim();
     try {
     await FirebaseAuth.instance.sendPasswordResetEmail(
         email: email);
@@ -65,6 +65,7 @@ class FirebaseHelper {
       print(e);
       print(email);
     }
+
   }
 
 

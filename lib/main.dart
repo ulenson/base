@@ -1,11 +1,11 @@
-import 'package:base/screens/fogot_password_screen.dart';
+import 'package:base/screens/forgot_password_screen.dart';
 import 'package:base/screens/login_screen.dart';
 import 'package:base/screens/profile_screen.dart';
 import 'package:base/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:base/screens/fogot_password_screen.dart';
+import 'package:base/screens/forgot_password_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
