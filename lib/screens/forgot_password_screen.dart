@@ -39,69 +39,33 @@ class _ForgotPassState extends State<ForgotPass> {
               SizedBox(height: 20),
               TextFormField(
                 controller: _emailController,
-                // autovalidateMode: AutovalidateMode.onUserInteraction,
-                // validator: (email) =>
-                // email != null && !EmailValidator.validate(email)
-                //     ? 'Верный адрес электронной почты'
-                //     : null,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  maximumSize: Size.fromHeight(50),
+                  maximumSize: const Size.fromHeight(50),
                 ),
                 icon: Icon(Icons.email_outlined),
                 label: Text('Изменить пароль'),
-                onPressed:() async {
-                  try {
-                    await FirebaseAuth.instance.sendPasswordResetEmail(
-                        email: _emailController.text);
-                  } on FirebaseAuthException catch (e) {
-                     if (e.code == 'auth/invalid-email') {
-                       print('Неверный адрес');
-              }
-                   print(e);
+                onPressed: () async {
+                  final email = _emailController.text.trim();
+                  final result = await FirebaseHelper.resetPassword(email);
+                  if (result) {
+                    Navigator.pop(context);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text('Wrong email or password'),
+                      ),
+                    );
                   }
-                  // FirebaseHelper.resetPassword(emailController.text.trim());
-                  Navigator.pop(context);
-
                 },
-
               ),
-
-
-
             ],
           ),
         ),
       ),
     );
-
-    // Future resetPassword() async {
-    //   // showDialog(
-    //   //   context: context,
-    //   //   barrierDismissible: false,
-    //   //   builder: (context) =>
-    //   //       Center(
-    //   //           child: CircleProgressIndicator()),
-    //   // );
-    //   try {
-    //     await FirebaseAuth.instance.sendPasswordResetEmail(
-    //         email: emailController.text);
-    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //       backgroundColor: Colors.red,
-    //       content: Text('Новый пароль отправлен на почту'),
-    //     ),
-    //
-    //     );
-    //     Navigator.of(context).popUntil((route) => route.isFirst);
-    //   } on FirebaseAuthException catch (e) {
-    //     print(e);
-    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //       backgroundColor: Colors.red,
-    //       content: Text(e.message),),
-    //     );
-    //   }
-    // }
   }
 }

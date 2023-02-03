@@ -49,15 +49,13 @@ class FirebaseHelper {
     return false;
   }
 
-  static Future resetPassword(String email) async {
-    final emailController = TextEditingController();
-    final email = emailController.text.trim();
+  static Future<bool> resetPassword(String email) async {
+
     try {
     await FirebaseAuth.instance.sendPasswordResetEmail(
         email: email);
-        // emailController.text);
-        // 'oulitka75@gmail.com');
 
+     return true;
   } on FirebaseAuthException catch (e) {
       if (e.code == 'auth/invalid-email') {
         print('Неверный адрес');
@@ -65,7 +63,7 @@ class FirebaseHelper {
       print(e);
       print(email);
     }
-
+    return false;
   }
 
 
