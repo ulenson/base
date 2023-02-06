@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Личный кабинет'),
         actions: [
           TextButton(
             onPressed: () async {
@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.pushReplacementNamed(context, '/login');
             },
             child: const Text(
-              'Logout',
+              'Выйти',
               style: TextStyle(color: Colors.white),
             ),
           )
@@ -40,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(child: Text('Hello, $username!')),
+          Center(child: Text('Привет, $username!')),
         ],
       ),
     );

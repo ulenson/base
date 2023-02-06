@@ -60,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         backgroundColor: Colors.red,
-                        content: Text('Something went wrong'),
+                        content: Text('Что-то не так'),
                       ),
                     );
                   }
@@ -69,7 +69,7 @@ class SignUpScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       backgroundColor: Colors.red,
-                      content: Text('Passwords are not the same'),
+                      content: Text('Пароли не совпадают'),
                     ),
                   );
                 }
