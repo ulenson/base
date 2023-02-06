@@ -13,57 +13,71 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: const Text('Регистрация'),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(hintText: 'Email'),
-            textInputAction: TextInputAction.next,
-          ),
-          TextField(
-            controller: _passwordController,
-            decoration: const InputDecoration(hintText: 'Password'),
-            obscureText: true,
-            textInputAction: TextInputAction.done,
-          ),
-          TextField(
-            controller: _passwordAgainController,
-            decoration: const InputDecoration(hintText: 'Password again'),
-            obscureText: true,
-            textInputAction: TextInputAction.done,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final email = _emailController.text.trim();
-              final password = _passwordController.text.trim();
-              final passwordAgain = _passwordAgainController.text.trim();
-              if (password == passwordAgain) {
-                final success = await FirebaseHelper.signUp(email, password);
-                if (success) {
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(hintText: 'Адрес электронной почты'),
+                textInputAction: TextInputAction.next,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(hintText: 'Пароль'),
+                obscureText: true,
+                textInputAction: TextInputAction.done,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _passwordAgainController,
+                decoration: const InputDecoration(hintText: 'Повторите пароль'),
+                obscureText: true,
+                textInputAction: TextInputAction.done,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final email = _emailController.text.trim();
+                final password = _passwordController.text.trim();
+                final passwordAgain = _passwordAgainController.text.trim();
+                if (password == passwordAgain) {
+                  final success = await FirebaseHelper.signUp(email, password);
+                  if (success) {
+                    Navigator.pop(context);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text('Something went wrong'),
+                      ),
+                    );
+                  }
                   Navigator.pop(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       backgroundColor: Colors.red,
-                      content: Text('Something went wrong'),
+                      content: Text('Passwords are not the same'),
                     ),
                   );
                 }
-                Navigator.pop(context);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Colors.red,
-                    content: Text('Passwords are not the same'),
-                  ),
-                );
-              }
-            },
-            child: const Text('Sign Up'),
-          ),
-        ],
+              },
+              child: const Text('Зарегистрироваться'),
+            ),
+          ],
+        ),
       ),
     );
   }

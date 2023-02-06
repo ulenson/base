@@ -14,54 +14,65 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Вход в аккаунт'),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(hintText: 'email'),
-            textInputAction: TextInputAction.next,
-          ),
-          TextField(
-            controller: _passwordController,
-            decoration: const InputDecoration(hintText: 'password'),
-            obscureText: true,
-            textInputAction: TextInputAction.done,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final email = _emailController.text.trim();
-              final password = _passwordController.text.trim();
-              final success = await FirebaseHelper.login(email, password);
-              if (success) {
-                Navigator.pushReplacementNamed(context, '/profile');
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Colors.red,
-                    content: Text('Wrong email or password'),
-                  ),
-                );
-              }
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(hintText: 'адрес электронной почты'),
+                textInputAction: TextInputAction.next,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(hintText: 'пароль'),
+                obscureText: true,
+                textInputAction: TextInputAction.done,
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final email = _emailController.text.trim();
+                final password = _passwordController.text.trim();
+                final success = await FirebaseHelper.login(email, password);
+                if (success) {
+                  Navigator.pushReplacementNamed(context, '/profile');
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text('Wrong email or password'),
+                    ),
+                  );
+                }
     },
 
-            child: const Text('Login'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/sign_up');
-            },
-            child: const Text('Нет аккаунта? Зарегистрируйтесь!'),
-          ),
-          TextButton(
-            onPressed: () =>
-            {
-              Navigator.pushNamed(context, '/forgot'),
-            },
-            child: const Text('Забыли пароль?'),
-          ),
-        ],
+              child: const Text('Войти'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/sign_up');
+              },
+              child: const Text('Нет аккаунта? Зарегистрируйтесь!'),
+            ),
+            TextButton(
+              onPressed: () =>
+              {
+                Navigator.pushNamed(context, '/forgot'),
+              },
+              child: const Text('Забыли пароль?'),
+            ),
+          ],
+        ),
       ),
     );
   }

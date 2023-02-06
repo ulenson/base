@@ -25,8 +25,7 @@ class _ForgotPassState extends State<ForgotPass> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        title: Text('Сбросить пароль'),
+        title: Text('Восстановление пароля'),
       ),
       body: Padding(
         padding: EdgeInsets.all(15),
@@ -35,9 +34,11 @@ class _ForgotPassState extends State<ForgotPass> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Получить письмо для сброса пароля'),
-              SizedBox(height: 20),
+              // Text('Получить письмо для сброса пароля'),
+
               TextFormField(
+                decoration: const InputDecoration(
+                    hintText: 'Адрес почты при регистрации '),
                 controller: _emailController,
               ),
               const SizedBox(height: 20),

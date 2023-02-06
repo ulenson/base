@@ -73,4 +73,7 @@ static Future<void> logout
 {await FirebaseAuth.instance.signOut();
 
 }
+
+
+
 }
