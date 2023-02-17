@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "191203211970",
-    "project_id": "base-63e42",
-    "storage_bucket": "base-63e42.appspot.com"
+    "project_number": "132877011247",
+    "firebase_url": "https://stripe-85862-default-rtdb.firebaseio.com",
+    "project_id": "stripe-85862",
+    "storage_bucket": "stripe-85862.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:191203211970:android:b8cd6a6e97d493e81fd95b",
+        "mobilesdk_app_id": "1:132877011247:android:16d99e534c5f6c8d9eb9da",
         "android_client_info": {
           "package_name": "com.example.base"
         }
       },
       "oauth_client": [
         {
-          "client_id": "191203211970-1dndsso334b3u4ch2d1sakhm0gc80ojf.apps.googleusercontent.com",
+          "client_id": "132877011247-4v3vobq7mjveosrfosgrsvfrllg5ent2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLkdYQAEDs0tZzqsaeV7E7zogF1Ykr3kM"
+          "current_key": "AIzaSyD9_51xJdjHKX_IrxuJXlDFum-q4mQfCG0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "191203211970-1dndsso334b3u4ch2d1sakhm0gc80ojf.apps.googleusercontent.com",
+              "client_id": "132877011247-4v3vobq7mjveosrfosgrsvfrllg5ent2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

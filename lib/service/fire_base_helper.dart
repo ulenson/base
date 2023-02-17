@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:base/screens/forgot_password_screen.dart';
-class FirebaseHelper {
 
+class FirebaseHelper {
   static Future<bool> login(String email, String password) async {
     try {
-      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email, password: password);
+      final user = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
       return true;
     } on FirebaseAuthException catch (e) {
       print(e.toString());
@@ -23,9 +24,20 @@ class FirebaseHelper {
     return false;
   }
 
+  static String? getEmail() {
+    return FirebaseAuth.instance.currentUser?.email;
+  }
 
-
-
+  static Future<void> write(String note) async {
+    // Берём id пользователя, чтобы у каждого пользователя была своя ветка
+    final id = FirebaseAuth.instance.currentUser?.uid;
+    if (id == null) return;
+    // Берём ссылку на корень дерева с записями для текущего пользователя
+    final ref = FirebaseDatabase.instance.ref("notes/$id");
+    // Сначала генерируем новую ветку с помощью push() и потом в эту же ветку
+    // добавляем запись
+    await ref.push().set(note);
+  }
 
   static Future<bool> signUp(String email, String password) async {
     try {
@@ -50,30 +62,61 @@ class FirebaseHelper {
   }
 
   static Future<bool> resetPassword(String email) async {
-
     try {
-    await FirebaseAuth.instance.sendPasswordResetEmail(
-        email: email);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
-     return true;
-  } on FirebaseAuthException catch (e) {
+      return true;
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'auth/invalid-email') {
         print('Неверный адрес');
       }
       print(e);
-      print(email);
     }
     return false;
   }
 
+  static Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
-static Future<void> logout
+  static void removeNote(String note) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    final notes = await FirebaseDatabase.instance.ref("notes/$userId").get();
+    notes.children.forEach((element) {
+      if ((element.value as String?) == note) {
+        element.ref.remove();
+      }
+    });
+  }
 
-() async
-{await FirebaseAuth.instance.signOut();
+  // static Future<bool> isPaid() async {
+  //   final id = FirebaseAuth.instance.currentUser?.uid;
+  //
+  //   if (id == null) return false;
+  //   final subscription =
+  //       FirebaseDatabase.instance.ref('subscription/$id/enable');
+  //   final result = await subscription.get();
+  //   return result.value as bool? ?? false;
+  // }
+  static Future isSubscribed() async {
+    final id = FirebaseAuth.instance.currentUser?.uid;
+    if (id == null) return;
+    final ref =
+    FirebaseDatabase.instance.ref('subscription/$id');
+    await ref.push().set(true);
+  }
 
-}
-
-
+  static Stream<DatabaseEvent> subscriptionState() {
+    final id = FirebaseAuth.instance.currentUser?.uid;
+    if (id == null) return const Stream.empty();
+    final ref = FirebaseDatabase.instance.ref('subscription/$id');
+    return ref.onValue;
+  }
+  static Stream<DatabaseEvent> getNotes() {
+    final id = FirebaseAuth.instance.currentUser?.uid;
+    if (id == null) return const Stream.empty();
+    final ref = FirebaseDatabase.instance.ref("notes/$id");
+    return ref.onValue;
+  }
 
 }
