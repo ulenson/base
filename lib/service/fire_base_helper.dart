@@ -98,18 +98,18 @@ class FirebaseHelper {
   //   final result = await subscription.get();
   //   return result.value as bool? ?? false;
   // }
-  static Future isSubscribed() async {
+  static Future <void>isSubscribed(bool value) async {
     final id = FirebaseAuth.instance.currentUser?.uid;
     if (id == null) return;
     final ref =
-    FirebaseDatabase.instance.ref('subscription/$id');
-    await ref.push().set(true);
+    FirebaseDatabase.instance.ref('subscription/$id/enable');
+    await ref.set(value);
   }
 
   static Stream<DatabaseEvent> subscriptionState() {
     final id = FirebaseAuth.instance.currentUser?.uid;
     if (id == null) return const Stream.empty();
-    final ref = FirebaseDatabase.instance.ref('subscription/$id');
+    final ref = FirebaseDatabase.instance.ref('subscription/$id/enable');
     return ref.onValue;
   }
   static Stream<DatabaseEvent> getNotes() {

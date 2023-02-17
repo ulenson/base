@@ -127,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
   Future write() async {
-    await FirebaseHelper.isSubscribed();
+    await FirebaseHelper.isSubscribed(false);
   }
 
   Future<void> _initUsername() async {
@@ -169,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Payment completed!')),
       );
-      await FirebaseHelper.isSubscribed();
+      await FirebaseHelper.isSubscribed(true);
     } catch (e) {
       log(e.toString());
       if (e is StripeException) {
@@ -185,8 +185,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     }
   }
-  Future observeSubscriptionState() async {
-    await Future.delayed(const Duration(seconds: 1));
+  void observeSubscriptionState()  {
+     Future.delayed(const Duration(seconds: 1));
     FirebaseHelper.subscriptionState().listen((event) {
       final state = event.snapshot.value;
       if (state == null) return;
