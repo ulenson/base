@@ -79,30 +79,10 @@ class FirebaseHelper {
     await FirebaseAuth.instance.signOut();
   }
 
-  static void removeNote(String note) async {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    final notes = await FirebaseDatabase.instance.ref("notes/$userId").get();
-    notes.children.forEach((element) {
-      if ((element.value as String?) == note) {
-        element.ref.remove();
-      }
-    });
-  }
-
-  // static Future<bool> isPaid() async {
-  //   final id = FirebaseAuth.instance.currentUser?.uid;
-  //
-  //   if (id == null) return false;
-  //   final subscription =
-  //       FirebaseDatabase.instance.ref('subscription/$id/enable');
-  //   final result = await subscription.get();
-  //   return result.value as bool? ?? false;
-  // }
-  static Future <void>isSubscribed(bool value) async {
+  static Future<void> isSubscribed(bool value) async {
     final id = FirebaseAuth.instance.currentUser?.uid;
     if (id == null) return;
-    final ref =
-    FirebaseDatabase.instance.ref('subscription/$id/enable');
+    final ref = FirebaseDatabase.instance.ref('subscription/$id/enable');
     await ref.set(value);
   }
 
@@ -112,11 +92,4 @@ class FirebaseHelper {
     final ref = FirebaseDatabase.instance.ref('subscription/$id/enable');
     return ref.onValue;
   }
-  static Stream<DatabaseEvent> getNotes() {
-    final id = FirebaseAuth.instance.currentUser?.uid;
-    if (id == null) return const Stream.empty();
-    final ref = FirebaseDatabase.instance.ref("notes/$id");
-    return ref.onValue;
-  }
-
 }
